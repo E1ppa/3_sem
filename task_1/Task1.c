@@ -26,23 +26,23 @@ int main() {
                 if(cmd[i] == ' ' && cmd[i+1] != ' ' && cmd[i+1] != 0)
                     argN++;
 
-            char** argv = malloc(argN * sizeof(char*));
+            char** argv = malloc((argN+1) * sizeof(char*));
 
             char* name = strtok(cmd, " ");
             argv[0] = name;
 
             for(int i = 1; i < argN; i++) 
                 argv[i] = strtok(NULL," ");
-
+            argv[argN]=NULL;
             execvp(name, argv);
-            return 1;
+            return 42;
         }
         else
         {
             waitpid(c_pid, &st, 0);
             st = WEXITSTATUS(st);
         }
-        if(st == 1)
+        if(st == 42)
             printf("Incorrect\n");
         else
             printf("Exit status: %d\n", st);
